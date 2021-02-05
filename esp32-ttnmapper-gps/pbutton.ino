@@ -5,7 +5,7 @@
 //  by Luiz Henrique Cassettari
 //----------------------------------------//
 
-#define BUTTON 0
+#define BUTTON 39
 #define BUTTON_MODE_MAX 3
 
 static int button_i;
@@ -29,6 +29,8 @@ boolean button_loop()
   if (button_press())
   {
     button_i++;
+    if (button_i > BUTTON_MODE_MAX) button_i=0;
+    Serial.printf("Button mode %d: %s\n", button_i, button_mode().c_str());
     return true;
   }
   return false;

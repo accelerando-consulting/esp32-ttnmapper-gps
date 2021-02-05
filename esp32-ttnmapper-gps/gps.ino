@@ -8,11 +8,26 @@
 
 
 #include <TinyGPS++.h>
-#include <HardwareSerial.h> 
+#include <HardwareSerial.h>
 
+#if defined(GPS_RX_PIN) && defined (GPS_TX_PIN)
+// use pins defined in pins.h
+#define RXPin GPS_RX_PIN
+#define TXPin GPS_TX_PIN
+#else
+// default pins are 34 and 35
 #define RXPin 34
 #define TXPin 35
+#endif
+
 #define GPSBaud 9600
+
+// uncomment next line to test with a fake location
+// #define FAKE_GPS 1
+
+#define FAKE_GPS_LAT -27.565886
+#define FAKE_GPS_LON 152.937851
+#define FAKE_GPS_ALT 11.700000
 
 TinyGPSPlus gps;
 HardwareSerial ss(1);
@@ -23,29 +38,48 @@ void gps_setup(){
   Serial.println();
 }
 
-void gps_loop(){
+bool gps_loop(){
   while (ss.available() > 0) {
     gps.encode(ss.read());
   }
   if (runEvery_gps(5000)) 
   {
+    Serial.print(F("GPS timestamp: "));
     Serial.println(gps_time() + " " + gps_date());
+    return true;
   }
+  return false;
 }
 
 boolean gps_read(){
+#ifdef FAKE_GPS
+  return true;
+#else
   return (gps.location.isValid());
+#endif
 }
 
 float gps_latitude(){
+#ifdef FAKE_GPS
+  return FAKE_GPS_LAT;
+#else
   return gps.location.lat();
+#endif
 }
 float gps_longitude(){
+#ifdef FAKE_GPS
+  return FAKE_GPS_LON;
+#else
   return gps.location.lng();
+#endif
 }
 
 float gps_meters() {
+#ifdef FAKE_GPS
+  return FAKE_GPS_ALT;
+#else  
   return gps.altitude.meters();
+#endif
 }
 
 float gps_HDOP(){

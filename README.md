@@ -12,6 +12,10 @@ Program to make a LoRaWAN node based on the TTGO LoRa 915MHz plus GPS (ATGM336H)
 * TTGO LORA32 915Mhz (Heltec Wifi LoRa 32)
 * GPS ATGM336H
 
+or
+
+* TTGO t-beam
+
 ### Images
 
 <img src="img/hardware-ttgo.jpg" alt="ttgo" width="50%"><img src="img/hardware-gps.jpg" alt="gps" width="50%">
@@ -19,12 +23,18 @@ Program to make a LoRaWAN node based on the TTGO LoRa 915MHz plus GPS (ATGM336H)
 
 ### Schematic
 
+* LORA32
+
 | ESP32 | GPS |
 | :----: | :-----: |
 | 5V | VCC |
 | GND | GND |
 | 34 | TX |
 | 35 | RX |
+
+* T-Beam
+
+Uses T-beam's built in GPS
 
 ## Librarys
 
